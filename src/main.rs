@@ -55,10 +55,14 @@ where
     <T as FromStr>::Err: Display,
 {
     print!("{prompt}: ");
-    io::stdout().flush().unwrap();
+    io::stdout()
+        .flush()
+        .expect("should be able to flush stdout");
 
     let mut user_input = String::new();
-    io::stdin().read_line(&mut user_input).unwrap();
+    io::stdin()
+        .read_line(&mut user_input)
+        .expect("should be able to read from stdin");
 
     match T::from_str(user_input.trim_end()) {
         Ok(result) => result,
@@ -105,15 +109,18 @@ fn main() {
     let mut args = env::args();
     args.next(); // skip first argument
 
-    let activity_goals_filepath = args.next().unwrap();
+    let activity_goals_filepath = args.next().expect("goals filepath should be provided");
     let activity_goals_filepath = Path::new(&activity_goals_filepath);
 
-    let activity_records_filepath = args.next().unwrap();
+    let activity_records_filepath = args.next().expect("records filepath should be provided");
     let activity_records_filepath = Path::new(&activity_records_filepath);
+
+    println!("Taking goals from '{}'", activity_goals_filepath.display());
+    println!("Writing log to '{}'", activity_records_filepath.display());
 
     let now = std::time::SystemTime::now()
         .duration_since(UNIX_EPOCH)
-        .unwrap();
+        .expect("current time should be after unix epoch");
     println!("Current time since epoch: {:?}", now);
 
     let activity_goals = load_activity_goals(activity_goals_filepath);
