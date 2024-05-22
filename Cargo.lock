@@ -6,6 +6,7 @@ version = 3
 name = "accountability-rs"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "chrono",
  "serde",
  "serde_json",
@@ -25,6 +26,12 @@ checksum = "819e7219dbd41043ac279b19830f2efc897156490d7fd6ea916720117ee66311"
 dependencies = [
  "libc",
 ]
+
+[[package]]
+name = "anyhow"
+version = "1.0.85"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "27a4bd113ab6da4cd0f521068a6e2ee1065eab54107266a11835d02c8ec86a37"
 
 [[package]]
 name = "autocfg"
