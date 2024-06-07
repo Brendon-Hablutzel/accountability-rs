@@ -42,11 +42,11 @@ impl ActivityRecord {
     }
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, Deserialize)]
 pub struct ActivitiesRecord {
-    timestamp: f64,
-    record_date: NaiveDate,
-    activities: Vec<ActivityRecord>,
+    pub timestamp: f64,
+    pub record_date: NaiveDate,
+    pub activities: Vec<ActivityRecord>,
 }
 
 impl ActivitiesRecord {
@@ -72,13 +72,13 @@ pub fn load_activity_goals(filepath: &Path) -> Result<ActivityGoals> {
     Ok(goals)
 }
 
-pub fn parse_line(line: String) -> Result<ActivityRecord> {
+pub fn parse_line(line: String) -> Result<ActivitiesRecord> {
     Ok(serde_json::from_str(&line)?)
 }
 
 pub fn stream_activity_records(
     filepath: &Path,
-) -> Result<impl Iterator<Item = Result<ActivityRecord>>> {
+) -> Result<impl Iterator<Item = Result<ActivitiesRecord>>> {
     let file = File::open(filepath).unwrap();
     let buf_reader = BufReader::new(file);
     let lines = buf_reader.lines();
